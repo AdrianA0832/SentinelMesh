@@ -1,0 +1,8 @@
+# runtime data (private)
+data/
+.venv/
+__pycache__/
+*.log
+*.csv
+*.json
+

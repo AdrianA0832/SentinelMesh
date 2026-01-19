@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelMesh | Loading...</title>
+    <style>
+        body { background: #0B0F14; color: #E5E7EB; font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; flex-direction: column; }
+        .spinner { margin-bottom: 1rem; width: 20px; height: 20px; border: 2px solid #1F2933; border-top: 2px solid #22C55E; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        a { color: #8B5CF6; }
+    </style>
+</head>
+<body>
+    <div id="status" class="spinner"></div>
+    <div id="message">Connecting to SentinelMesh backend...</div>
+
+    <script>
+        const API_URL = 'http://127.0.0.1:8000';
+        
+        async function checkConnection() {
+            try {
+                const res = await fetch(`${API_URL}/`);
+                if (res.ok) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    throw new Error('Backend returned non-200');
+                }
+            } catch (e) {
+                document.getElementById('status').style.display = 'none';
+                document.getElementById('message').innerHTML = `
+                    <span style="color: #EF4444">Connection Failed</span><br><br>
+                    Ensure backend is running:<br>
+                    <code>python -m uvicorn backend.main:app --reload</code>
+                `;
+            }
+        }
+        
+        // Initial check
+        setTimeout(checkConnection, 500);
+    </script>
+</body>
+</html>

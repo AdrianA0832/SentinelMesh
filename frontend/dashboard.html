@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelMesh Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="brand">
+                <span class="status-indicator" id="sys-color"></span>
+                ./sentinelmesh
+            </div>
+            <div class="meta">
+                <span class="env-badge" id="env-mode">LOADING</span>
+            </div>
+        </header>
+
+        <!-- Status Banner -->
+        <div class="banner" id="status-banner">
+            > Initializing dashboard connection...
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-title">Active Devices</div>
+                <div class="card-value" id="count-devices">-</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Risk Score</div>
+                <div class="card-value" id="risk-score">-</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Status</div>
+                <div class="card-value" id="risk-status">-</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Last Scan</div>
+                <div class="card-value" style="font-size: 1rem" id="last-scan">-</div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="dashboard-grid">
+            <div class="card col-span-2">
+                <div class="card-title">Risk History</div>
+                <canvas id="riskChart"></canvas>
+            </div>
+            <div class="card col-span-2">
+                <div class="card-title">Network Activity (Connections)</div>
+                <canvas id="connChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="dashboard-grid">
+            <!-- Left: Devices -->
+            <div class="card col-span-4">
+                <div class="card-title">Detected Devices (ARP Cache)</div>
+                <table id="device-table">
+                    <thead>
+                        <tr>
+                            <th>IP Address</th>
+                            <th>MAC Address</th>
+                            <th>Vendor (OUI)</th>
+                            <th>Status</th>
+                            <th>First Seen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5">Loading local scan data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bottom: Timeline & Info -->
+        <div class="dashboard-grid">
+            <div class="card col-span-2">
+                <div class="card-title">Event Timeline</div>
+                <div id="timeline-feed" class="timeline-list">
+                    <!-- Items injected here -->
+                </div>
+            </div>
+
+            <div class="card col-span-2 pq-block">
+                <div class="card-title" style="color: #8B5CF6">Post-Quantum Awareness</div>
+                <p style="font-size: 0.875rem; color: #9CA3AF; margin-bottom: 1rem;">
+                    This network uses classical cryptography.
+                    Future quantum-capable systems may require
+                    post-quantum algorithms. SentinelMesh does not
+                    perform quantum detection. This is informational only.
+                </p>
+                <div class="card-title">Recommendations</div>
+                <ul class="recommendations" id="recommendations">
+                    <li>Keep this tab open to maintain passive monitoring.</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            SentinelMesh · Local monitoring active · No data leaves this device
+        </footer>
+    </div>
+
+    <!-- Environment Name Modal -->
+    <div id="env-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary)">Name this Environment</h3>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.875rem">
+                SentinelMesh detected a new or unnamed network fingerprint. Give it a friendly name (e.g., "Home",
+                "Office").
+            </p>
+            <input type="text" id="env-name-input" placeholder="Environment Name" class="input-field" maxlength="30">
+            <div style="margin-top: 1rem; display: flex; justify-content: flex-end; gap: 0.5rem">
+                <button id="save-env-btn" class="btn-primary">Save Profile</button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
